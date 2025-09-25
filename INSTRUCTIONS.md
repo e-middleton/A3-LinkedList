@@ -16,7 +16,7 @@ In addition to the .java files, there are two .jar files needed for Junit testin
 
 MacOS / Linux:
 ```
-javac -cp .:junit-4.13.2.jar:hamcrest-core-1.3.jar *.java
+...javac -cp .:junit-4.13.2.jar:hamcrest-core-1.3.jar *.java
 ```
 
 Windows (PowerShell or CMD):

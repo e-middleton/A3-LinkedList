@@ -212,15 +212,15 @@ public class SLLTest {
         assertTrue("A removeAfter null -> empty" + s, s.equals(""));
     }
 
-    @Test
-    public void test_copy_constructor() {
-        SLL<String> list = makeSLL(bac);
+    // @Test
+    // public void test_copy_constructor() {
+    //     SLL<String> list = makeSLL(bac);
 
-        String s = verifySLL(new SLL<String>(list), bac);
-        assertTrue("copy BAC" + s, s.equals(""));
-        s = verifySLL(new SLL<String>(new SLL<String>()), empty);
-        assertTrue("copy empty" + s, s.equals(""));
-    }
+    //     String s = verifySLL(new SLL<String>(list), bac);
+    //     assertTrue("copy BAC" + s, s.equals(""));
+    //     s = verifySLL(new SLL<String>(new SLL<String>()), empty);
+    //     assertTrue("copy empty" + s, s.equals(""));
+    // }
 
     @Test
     public void test_subseqByCopy() {

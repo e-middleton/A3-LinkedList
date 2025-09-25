@@ -5,7 +5,7 @@
  * @version Fall 2025
  */
 
- public class SLL<T> implements Phase1SLL<T>, Phase2SLL<T>{ // they both need <T> so that it's clear they're the same generic type
+ public class SLL<T> implements Phase1SLL<T>, Phase2SLL<T>, Phase4SLL<T>{ // they both need <T> so that it's clear they're the same generic type
     private NodeSL<T> head;
     private NodeSL<T> tail;
 
@@ -222,6 +222,11 @@
    *  @param afterHere  marks the position in this where the new list should go
    */
   public void spliceByCopy(SLL<T> list, NodeSL<T> afterHere){
+
+    if(this == list){
+        throw new SelfInsertException();        // no self splicing
+    }
+
     SLL<T> copyList = list.subseqByCopy(list.getHead(), list.size());
 
     if(copyList.isEmpty()){
@@ -237,19 +242,80 @@
     }
   }
 
+    /** 
+   *  Extracts a subsequence of nodes and returns them as a new list,
+   * removing them from the original list.
+   *  @param afterHere  marks the node just before the extraction
+   *  @param toHere  marks the node where the extraction ends
+   *  @return  the new list
+   */
+  public SLL<T> subseqByTransfer(NodeSL<T> afterHere, NodeSL<T> toHere){
+    SLL<T> extraction = new SLL<T>();
+
+    if(afterHere == null){
+        extraction.head = this.head;
+        extraction.tail = toHere;
+
+        // update old list
+        this.head = toHere.getNext();
+        toHere.setNext(null); // clip out
+    } else if(afterHere == toHere){             // if the two nodes from-to are identical, it returns an empty list
+        return extraction;
+    } else {
+        extraction.head = afterHere.getNext();
+        extraction.tail = toHere;
+        afterHere.setNext(toHere.getNext()); // clip out old elements
+
+        toHere.setNext(null); // separate out so it doesn't point to old list
+        // TODO: CHECK FOR EDGE CASE IF TAIL? OR IF THEY"RE THE SAME NODE?
+    }
+
+    return extraction;
+  }
+
+  /** 
+   *  Takes the provided list and inserts its elements into this
+   *  after the specified node.  The inserted list ends up empty.
+   *  @param list  the list to splice in.  Becomes empty after the call
+   *  @param afterHere  Marks the place where the new elements are inserted
+   */
+  public void spliceByTransfer(SLL<T> list, NodeSL<T> afterHere){
+    if (this == list) {
+        throw new SelfInsertException(); // you cannot both clear out a list and make it longer
+    }
+
+    if(list.isEmpty()) { // case for an empty list, nothing is done
+        return;
+    }
+    
+    if (afterHere == null) {
+        list.getTail().setNext(this.head); // if it is null, that means insert before the head
+        this.head = list.getHead();
+        list.head = list.tail = null; // clear out old list
+    } else {
+        list.getTail().setNext(afterHere.getNext());
+        afterHere.setNext(list.getHead());
+        if (afterHere == this.tail) {
+            this.tail = list.getTail(); // update the tail
+        }
+        list.head = list.tail = null; // clear out old list
+    }
+
+  }
+
 
   
   public static void main(String[] args) {
     SLL<String> test = new SLL<String>();
-    test.addFirst("C");
-    test.addFirst("B");
-    test.addFirst("A");
+    test.addLast("A");
+    test.addLast("B");
+    test.addLast("C");
+    test.addLast("D");
+    SLL<String> testTwo = new SLL<String>();
+    testTwo.addLast("E");
+    testTwo.addLast("F");
     System.out.println(test);
-    SLL<String> test2 = new SLL<String>();
-    test2.addLast("D");
-    test2.addLast("E");
-    test2.addLast("F");
-    test.spliceByCopy(test2, null);
+    test.spliceByTransfer(testTwo, test.getHead());
     System.out.println(test);
   }
 }
