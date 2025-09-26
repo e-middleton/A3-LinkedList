@@ -4,14 +4,13 @@
  * @author Emily Middleton
  * @version Fall 2025
  */
-
  public class SLL<T> implements Phase1SLL<T>, Phase2SLL<T>, Phase4SLL<T>{ // they both need <T> so that it's clear they're the same generic type
     private NodeSL<T> head;
     private NodeSL<T> tail;
 
 
     /**
-     * Constructor for an empty list
+     * Constructor for an empty linked list
      */
     public SLL(){
         this.head = null;
@@ -33,7 +32,6 @@
             }
             this.addLast(list.tail.getData());
         }
-
     }
 
     /**
@@ -78,7 +76,10 @@
         }
     }
   
-  /** Converts to a string representation */
+  /**
+   * Converts the linked list to a string representation
+   * @return String representation of the linked list object
+   */
   public String toString(){
     if(this.head == null) { // edge case for an empty list
         return "[]";
@@ -95,7 +96,8 @@
   }
 
   /**
-   * Inserts an item at the tail of the list
+   * Inserts an item at the tail of the list,
+   * updating the reference to the tail node
    * @param v the item to insert
    */
   public void addLast(T v){
@@ -109,7 +111,7 @@
         this.tail = newNode; // change the tail of the linked list to be this new node
     }
   }
-  
+
   /**
    * Inserts the given item after the specified node
    * @param here node to insert after
@@ -223,11 +225,12 @@
     return size;
   }
 
-    /** 
-   *  Makes a deep copy of elements from the original list
-   *  @param here  starting point of copy
-   *  @param n  number of items to copy
-   *  @return the copied list
+  /**
+   * Makes a deep copy of elements from the original list
+   * returning them as a separate linked list.
+   * @param here starting point of the copy
+   * @param n number of items to copy
+   * @return the copied list
    */
   public SLL<T> subseqByCopy(NodeSL<T> here, int n){
     SLL<T> subsequence = new SLL<T>();
@@ -243,14 +246,13 @@
             throw new MissingElementException();        // if there are too many elements requested
         }
     }
-
     return subsequence;
   }
 
-    /**
-   *  Places copy of the provided list into this after the specified node.
-   *  @param list  the list to splice in a deep copy of into this object
-   *  @param afterHere  marks the position in this where the inserted list should begin
+  /**
+   * Places copy of the provided list into the current list after the specified node.
+   * @param list the list to splice in a deep copy of into this object.
+   * @param afterHere marks the position in this list where the inserted list should begin.
    */
   public void spliceByCopy(SLL<T> list, NodeSL<T> afterHere){
     if(this == list){
@@ -271,13 +273,13 @@
         afterHere.setNext(copyList.head); // modify links
     }
   }
-
-    /** 
-   *  Extracts a subsequence of nodes and returns them as a new list,
+  
+  /**
+   * Extracts a subsequence of nodes and returns them as a new list,
    * removing them from the original list.
-   *  @param afterHere  marks the node just before the extraction
-   *  @param toHere  marks the node where the extraction ends
-   *  @return  the new list
+   * @param afterHere  marks the node just before the extraction
+   * @param toHere  marks the node where the extraction ends
+   * @return  the new list
    */
   public SLL<T> subseqByTransfer(NodeSL<T> afterHere, NodeSL<T> toHere){
     SLL<T> extraction = new SLL<T>();
@@ -308,7 +310,6 @@
         }
         toHere.setNext(null); // separate out so it doesn't point to old list
     }
-
     return extraction;
   }
 
@@ -339,24 +340,5 @@
         }
         list.head = list.tail = null; // clear out old list
     }
-
-  }
-
-
-  
-  public static void main(String[] args) {
-    SLL<String> test = new SLL<String>();
-    test.addLast("A");
-    test.addLast("B");
-    test.addLast("C");
-    test.addLast("D");
-    System.out.println(test);
-    SLL<String> test2 = new SLL<String>();
-    test2.addLast("X");
-    test2.addLast("Y");
-    test2.addLast("Z");
-    test.spliceByTransfer(test2, null);
-    System.out.println(test);
-    System.out.println(test2);
   }
 }

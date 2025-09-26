@@ -10,39 +10,39 @@ your work, please indicate the status of each item
 
 ## Assignment Points:
 
-_____ 2 pt: Phase 1 methods implemented for singly linked list
+__YES__ 2 pt: Phase 1 methods implemented for singly linked list
 
-_____ 1 pt: Passes all phase 1 tests for singly linked list
+__YES__ 1 pt: Passes all phase 1 tests for singly linked list
 
-_____ 2 pt: Phase 2 methods implemented for singly linked list
+__YES__ 2 pt: Phase 2 methods implemented for singly linked list
 
-_____ 1 pt: Passes all phase 2 tests for singly linked list
+__YES__ 1 pt: Passes all phase 2 tests for singly linked list
 
-_____ 1 pts: Program throws appropriate exceptions (with informative error messages)
+__PART__ 1 pts: Program throws appropriate exceptions (with informative error messages)
 
-_____ 1 pt: Passes all phase 3 tests for singly linked list
+__YES__ 1 pt: Passes all phase 3 tests for singly linked list
 
-_____ 1 pt: Phase 4 methods implemented efficiently for singly linked list
+__PART__ 1 pt: Phase 4 methods implemented efficiently for singly linked list
 
-_____ 1 pt: Passes all phase 4 tests for singly linked list
+__YES__ 1 pt: Passes all phase 4 tests for singly linked list
 
 
 ## Kudos (Extra Challenge):
 
-______ Iterator can get elements
+___YES__ Iterator can get elements
 
-______ Iterator can set elements
+___YES__ Iterator can set elements
 
-______ Iterator can add elements
+__YES__ Iterator can add elements
 
-______ Iterator can remove elements
+__YES__ Iterator can remove elements
 
 
 ## General Items:
 
-_____ 4 pts: Program compiles without errors or warnings
+__YES__ 4 pts: Program compiles without errors or warnings
 
-_____ 2 pts: Executes fully & consistently without crashing (exception/freeze)
+__YES__ 2 pts: Executes fully & consistently without crashing (exception/freeze)
 
 _____ 2 pt: Complies with style guidelines (missing items 1 pt each):
 

@@ -19,7 +19,7 @@ public class SLL_Iterator<T> implements Phase5SLL_Iterator<T> {
     }
 
     /**
-     * Tests whether there are any more
+     * Tests whether there are any more elements in the list
      * 
      * @return T/F is it safe to call next()?
      */
@@ -97,24 +97,5 @@ public class SLL_Iterator<T> implements Phase5SLL_Iterator<T> {
             list.removeAfter(prevPrevNode);
             prevNode = prevPrevNode.getNext();
         }
-    }
-
-    /**
-     * Main method for debugging the SLL_Iterator class
-     * @param args command line arguments
-     */
-    public static void main(String[] args) {
-        SLL<String> test = new SLL<String>();
-        test.addLast("B");
-        test.addLast("C");
-
-        SLL_Iterator<String> iter = new SLL_Iterator<String>(test);
-
-        iter.add("A");
-        System.out.println(test);
-        iter.remove();
-        System.out.println(test);
-        // iter.remove();
-        // System.out.println(test);
     }
 }
