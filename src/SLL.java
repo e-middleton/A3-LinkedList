@@ -234,11 +234,9 @@
    */
   public SLL<T> subseqByCopy(NodeSL<T> here, int n){
     SLL<T> subsequence = new SLL<T>();
-
     if(here == null){        // if the node to begin at is null, it means begin at the head of the list
         here = this.head;
     }
-
     for (int i = 0; i < n; i++){
         subsequence.addLast(here.getData());
         here = here.getNext();
