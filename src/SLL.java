@@ -19,6 +19,24 @@
     }
 
     /**
+     * Copy constructor for linked lists that
+     * makes a deep copy of the linked list passed as an argument.
+     * @param list the list being copied
+     */
+    public SLL(SLL<T> list){
+        if (list.isEmpty()) {       // edge case of empty list
+            this.head = null;
+            this.tail = null;   
+        } else {                    // typical case of nonempty list
+            for(NodeSL<T> node = list.getHead(); node.getNext() != null; node = node.getNext()){    // copies everything except tail
+                this.addLast(node.getData());
+            }
+            this.addLast(list.tail.getData());
+        }
+
+    }
+
+    /**
      * Access method for the head of the LL
      * @return the head of the LinkedLIst
      */
@@ -99,6 +117,11 @@
    */
   public void addAfter(NodeSL<T> here, T v){
     // empty list would throw an exception
+    if(here == null){
+        addFirst(v); // add at the beginning if the node is null
+        return;
+    }
+
     NodeSL<T> node = new NodeSL<T>(v, here.getNext());
     if (here.getNext() == null) { // case for the tail
         here.setNext(node); // update the next field for the current node
@@ -201,7 +224,7 @@
   }
 
     /** 
-   *  Makes a copy of elements from the original list
+   *  Makes a deep copy of elements from the original list
    *  @param here  starting point of copy
    *  @param n  number of items to copy
    *  @return the copied list
@@ -209,36 +232,43 @@
   public SLL<T> subseqByCopy(NodeSL<T> here, int n){
     SLL<T> subsequence = new SLL<T>();
 
+    if(here == null){        // if the node to begin at is null, it means begin at the head of the list
+        here = this.head;
+    }
+
     for (int i = 0; i < n; i++){
         subsequence.addLast(here.getData());
         here = here.getNext();
+        if ((here == null) && (i+1 < n)){
+            throw new MissingElementException();        // if there are too many elements requested
+        }
     }
+
     return subsequence;
   }
 
     /**
    *  Places copy of the provided list into this after the specified node.
-   *  @param list  the list to splice in a copy of
-   *  @param afterHere  marks the position in this where the new list should go
+   *  @param list  the list to splice in a deep copy of into this object
+   *  @param afterHere  marks the position in this where the inserted list should begin
    */
   public void spliceByCopy(SLL<T> list, NodeSL<T> afterHere){
-
     if(this == list){
         throw new SelfInsertException();        // no self splicing
     }
 
-    SLL<T> copyList = list.subseqByCopy(list.getHead(), list.size());
+    SLL<T> copyList = new SLL<T>(list); // copy constructor
 
     if(copyList.isEmpty()){
-        return; // nothing to do for splicing in an empty list
+        return; // nothing to do for splicing in an empty list, this remains unchanged
     }
 
     if(afterHere == null){ // insert at beginning, also takes care of case of empty list
-        copyList.getTail().setNext(this.head);
-        this.head = copyList.getHead();
+        copyList.tail.setNext(this.head);
+        this.head = copyList.head;
     } else {
-        copyList.getTail().setNext(afterHere.getNext());
-        afterHere.setNext(copyList.getHead()); // modify links
+        copyList.tail.setNext(afterHere.getNext());
+        afterHere.setNext(copyList.head); // modify links
     }
   }
 
@@ -253,28 +283,37 @@
     SLL<T> extraction = new SLL<T>();
 
     if(afterHere == null){
+        // update new list links
         extraction.head = this.head;
         extraction.tail = toHere;
 
-        // update old list
-        this.head = toHere.getNext();
-        toHere.setNext(null); // clip out
-    } else if(afterHere == toHere){             // if the two nodes from-to are identical, it returns an empty list
+        // update old list links
+        this.head = toHere.getNext(); // tail is generally unchanged unless toHere == this.tail
+
+        if (toHere == this.tail) { // the entire list has been extracted
+            this.tail = null;
+        }
+
+        toHere.setNext(null); // clip out nodes from old list
+
+    } else if (afterHere == toHere){      // if the two nodes from-to are identical, it returns an empty list
         return extraction;
     } else {
         extraction.head = afterHere.getNext();
         extraction.tail = toHere;
         afterHere.setNext(toHere.getNext()); // clip out old elements
 
+        if(toHere == this.tail){    // edge case for tail included in extraction
+            this.tail = afterHere;
+        }
         toHere.setNext(null); // separate out so it doesn't point to old list
-        // TODO: CHECK FOR EDGE CASE IF TAIL? OR IF THEY"RE THE SAME NODE?
     }
 
     return extraction;
   }
 
   /** 
-   *  Takes the provided list and inserts its elements into this
+   *  Takes the provided list and inserts its elements into this current list
    *  after the specified node.  The inserted list ends up empty.
    *  @param list  the list to splice in.  Becomes empty after the call
    *  @param afterHere  Marks the place where the new elements are inserted
@@ -289,14 +328,14 @@
     }
     
     if (afterHere == null) {
-        list.getTail().setNext(this.head); // if it is null, that means insert before the head
-        this.head = list.getHead();
+        list.tail.setNext(this.head); // if it is null, that means insert before the head
+        this.head = list.head;
         list.head = list.tail = null; // clear out old list
     } else {
-        list.getTail().setNext(afterHere.getNext());
-        afterHere.setNext(list.getHead());
+        list.tail.setNext(afterHere.getNext());
+        afterHere.setNext(list.head);
         if (afterHere == this.tail) {
-            this.tail = list.getTail(); // update the tail
+            this.tail = list.tail; // update the tail
         }
         list.head = list.tail = null; // clear out old list
     }
@@ -311,11 +350,13 @@
     test.addLast("B");
     test.addLast("C");
     test.addLast("D");
-    SLL<String> testTwo = new SLL<String>();
-    testTwo.addLast("E");
-    testTwo.addLast("F");
     System.out.println(test);
-    test.spliceByTransfer(testTwo, test.getHead());
+    SLL<String> test2 = new SLL<String>();
+    test2.addLast("X");
+    test2.addLast("Y");
+    test2.addLast("Z");
+    test.spliceByTransfer(test2, null);
     System.out.println(test);
+    System.out.println(test2);
   }
 }
