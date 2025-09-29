@@ -58,4 +58,4 @@ __YES__ 2 pt: Complies with style guidelines (missing items 1 pt each):
 
 __YES__ 1 pt: All required files included with submission
 
-__NO__ 1 pt: readme.md contains reflection on the assignment
+__YES__ 1 pt: readme.md contains reflection on the assignment
