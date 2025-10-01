@@ -1,8 +1,24 @@
-/** Keeps track of position in a linked list */
+/**
+ * Keeps track of position in a linked list
+ * @author Emily Middleton
+ * @date Oct 1, 2025
+ */
 public class SLL_Iterator<T> implements Phase5SLL_Iterator<T> {
+    /**
+     * pointer to the node in front of the iterator position
+     */
     private NodeSL<T> currNode;
+    /**
+     * Points to the node behind the iterator position
+     */
     private NodeSL<T> prevNode;
+    /**
+     * Points to two nodes behind the iterators position
+     */
     private NodeSL<T> prevPrevNode;
+    /**
+     * The linked list that the iterator belongs to
+     */
     private SLL<T> list;
 
     /**

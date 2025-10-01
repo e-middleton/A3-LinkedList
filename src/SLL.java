@@ -2,10 +2,17 @@
  * Class to implement a singly linked list
  *
  * @author Emily Middleton
+ * @date Oct 1, 2025
  * @version Fall 2025
  */
  public class SLL<T> implements Phase1SLL<T>, Phase2SLL<T>, Phase4SLL<T>{ // they both need <T> so that it's clear they're the same generic type
+    /**
+     * pointer to the beginning node of the linked list
+     */
     private NodeSL<T> head;
+    /**
+     * Pointer to the last node in the linked list
+     */
     private NodeSL<T> tail;
 
 
