@@ -336,6 +336,9 @@
     if (afterHere == null) {
         list.tail.setNext(this.head); // if it is null, that means insert before the head
         this.head = list.head;
+        if(this.tail==null){
+            this.tail = list.tail; // if this list was previously empty
+        }
         list.head = list.tail = null; // clear out old list
     } else {
         list.tail.setNext(afterHere.getNext());
